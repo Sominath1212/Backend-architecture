@@ -24,6 +24,9 @@ namespace Backend.Infrastructure.Persistence.Context
         public DbSet<Company> Companies { get; set; }
         public DbSet<RecruiterProfile> RecruiterProfiles { get; set; }
 
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<JobSkill> JobSkills { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -122,6 +125,42 @@ namespace Backend.Infrastructure.Persistence.Context
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasIndex(r => new { r.UserId, r.CompanyId }).IsUnique();
+            });
+
+            modelBuilder.Entity<Job>(entity =>
+            {
+                entity.HasOne(j => j.Company)
+                      .WithMany()
+                      .HasForeignKey(j => j.CompanyId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<ApplicationUser>()
+                      .WithMany()
+                      .HasForeignKey(j => j.PostedByUserId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(j => j.Status);
+                entity.HasIndex(j => j.CompanyId);
+                entity.HasIndex(j => j.CreatedAt);
+            });
+
+            modelBuilder.Entity<JobSkill>(entity =>
+            {
+                entity.HasOne(js => js.Job)
+                      .WithMany(j => j.JobSkills)
+                      .HasForeignKey(js => js.JobId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(js => js.Skill)
+                      .WithMany()
+                      .HasForeignKey(js => js.SkillId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(js => new { js.JobId, js.SkillId }).IsUnique();
             });
         }
     }
