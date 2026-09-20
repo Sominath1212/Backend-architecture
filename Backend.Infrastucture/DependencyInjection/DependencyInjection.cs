@@ -52,6 +52,8 @@ namespace Backend.Infrastructure.DependencyInjection
             services.AddScoped<IRecruiterService, RecruiterService>();
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IApplicationService, ApplicationService>();
+            services.AddScoped<ISavedJobService, SavedJobService>();
+            services.AddScoped<IJobAlertService, JobAlertService>();
             return services;
         }
     } 
