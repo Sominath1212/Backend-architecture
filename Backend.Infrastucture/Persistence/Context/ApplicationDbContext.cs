@@ -33,6 +33,8 @@ namespace Backend.Infrastructure.Persistence.Context
         public DbSet<SavedJob> SavedJobs { get; set; }
         public DbSet<JobAlert> JobAlerts { get; set; }
 
+        // 1. Add this DbSet at the class level
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -234,6 +236,21 @@ namespace Backend.Infrastructure.Persistence.Context
                 entity.HasIndex(a => a.UserId);
                 entity.HasIndex(a => a.IsActive);
             });
+
+            
+        // 2. Add this configuration inside OnModelCreating:
+        modelBuilder.Entity<Notification>(entity =>
+{
+    entity.HasOne<ApplicationUser>()
+          .WithMany()
+          .HasForeignKey(n => n.UserId)
+          .IsRequired()
+          .OnDelete(DeleteBehavior.Cascade);
+
+        entity.HasIndex(n => n.UserId);
+    entity.HasIndex(n => n.IsRead);
+    entity.HasIndex(n => n.CreatedAt);
+});
         }
     }
 }
