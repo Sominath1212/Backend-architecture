@@ -2,5 +2,5 @@
   <Project Path="Backend.API/Backend.API.csproj" Id="8d521405-86b9-4308-b981-e42979152fb9" />
   <Project Path="Backend.Application/Backend.Application.csproj" Id="c276b40a-1f58-4132-a6d8-417a11911e1f" />
   <Project Path="Backend.Domain/Backend.Domain.csproj" Id="db889967-b1bf-4cfe-860d-77078ec9b5ce" />
-  <Project Path="Backend.Infrastucture/Backend.Infrastucture.csproj" Id="11eedce4-4957-4813-a6f7-f6e9e4265ccc" />
+  <Project Path="Backend.Infrastucture/Backend.Infrastructure.csproj" Id="11eedce4-4957-4813-a6f7-f6e9e4265ccc" />
 </Solution>

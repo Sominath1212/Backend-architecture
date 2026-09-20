@@ -1,15 +1,15 @@
 ﻿using Backend.Application.Interfaces;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Infrastructure.Persistence.Repositories;
-using Backend.Infrastucture.Identity;
-using Backend.Infrastucture.Persistence.Context;
-using Backend.Infrastucture.Services;
+using Backend.Infrastructure.Identity;
+using Backend.Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Backend.Infrastructure.Services;
 
-namespace Backend.Infrastucture.DependencyInjection
+namespace Backend.Infrastructure.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -40,6 +40,7 @@ namespace Backend.Infrastucture.DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
+            services.AddScoped<ICandidateProfileService, CandidateProfileService>();
             return services;
         }
     }

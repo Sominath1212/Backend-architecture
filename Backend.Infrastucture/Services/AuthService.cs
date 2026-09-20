@@ -1,10 +1,10 @@
 ﻿using Backend.Application.Common.Exceptions;
 using Backend.Application.DTOs.Authentication;
 using Backend.Application.Interfaces;
-using Backend.Infrastucture.Identity;
+using Backend.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 
-namespace Backend.Infrastucture.Services
+namespace Backend.Infrastructure.Services
 {
     public class AuthService : IAuthService
     {

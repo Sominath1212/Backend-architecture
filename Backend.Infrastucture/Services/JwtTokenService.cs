@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Backend.Application.Configurations;
-namespace Backend.Infrastucture.Services
+namespace Backend.Infrastructure.Services
 {
     public class JwtTokenService : IJwtTokenService
     {
