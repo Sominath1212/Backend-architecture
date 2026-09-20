@@ -5,6 +5,7 @@ using Backend.Infrastructure.Identity;
 using Backend.Infrastructure.Persistence.Context;
 using Backend.Infrastructure.Persistence.Repositories;
 using Backend.Infrastructure.Services;
+using Backend.Infrastucture.Services.FileStorage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,6 +46,8 @@ namespace Backend.Infrastructure.DependencyInjection
             services.AddScoped<IEducationService, EducationService>();
             services.AddScoped<IExperienceService, ExperienceService>();
             services.AddScoped<ISkillService, SkillService>();
+            services.AddScoped<IResumeService, ResumeService>();
+            services.AddScoped<IFileStorageService, LocalFileStorageService>();
             return services;
         }
     } 

@@ -16,6 +16,7 @@ namespace Backend.Infrastructure.Persistence.Context
         public DbSet<CandidateProfile> CandidateProfiles { get; set; }
         public DbSet<Education> EducationRecords { get; set; }
         public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Resume> Resumes { get; set; }
 
         public DbSet<Skill> Skills { get; set; }
         public DbSet<CandidateSkill> CandidateSkills { get; set; }
@@ -82,6 +83,17 @@ namespace Backend.Infrastructure.Persistence.Context
                       .OnDelete(DeleteBehavior.Restrict); // Prevent deleting a master skill if candidates have it
 
                 entity.HasIndex(cs => new { cs.UserId, cs.SkillId }).IsUnique(); // One skill per candidate
+            });
+
+            modelBuilder.Entity<Resume>(entity =>
+            {
+                entity.HasOne<ApplicationUser>()
+                      .WithMany()
+                      .HasForeignKey(r => r.UserId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(r => r.UserId);
             });
         }
     }
