@@ -1,7 +1,7 @@
 ﻿using Backend.Application.Common.Models;
 using Backend.Application.Interfaces.Repositories;
 using Backend.Domain.Common;
-using Backend.Infrastucture.Persistence.Context;
+using Backend.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

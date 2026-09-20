@@ -1,13 +1,12 @@
 using Backend.Application.Configurations;
 using Backend.API.Middleware;
-using Backend.Infrastucture.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Backend.Infrastructure.DependencyInjection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // --------------------------------------------------
 // Serilog
 // --------------------------------------------------

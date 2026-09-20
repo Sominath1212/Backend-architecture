@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Backend.Infrastucture.Persistence.Migrations
+namespace Backend.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIdentityAndCurrentModelChanges : Migration
+    public partial class AddCondidateProfile : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -158,6 +158,43 @@ namespace Backend.Infrastucture.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CandidateProfiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Mobile = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: true),
+                    CurrentDesignation = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    TotalExperience = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    CurrentCompany = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CurrentSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ExpectedSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    NoticePeriod = table.Column<int>(type: "int", nullable: true),
+                    EmploymentStatus = table.Column<int>(type: "int", nullable: true),
+                    PreferredJobType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PreferredLocation = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CandidateProfiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CandidateProfiles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -196,6 +233,12 @@ namespace Backend.Infrastucture.Persistence.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CandidateProfiles_UserId",
+                table: "CandidateProfiles",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -215,6 +258,9 @@ namespace Backend.Infrastucture.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CandidateProfiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
