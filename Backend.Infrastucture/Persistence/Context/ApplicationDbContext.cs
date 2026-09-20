@@ -27,6 +27,9 @@ namespace Backend.Infrastructure.Persistence.Context
         public DbSet<Job> Jobs { get; set; }
         public DbSet<JobSkill> JobSkills { get; set; }
 
+        public DbSet<JobApplication> JobApplications { get; set; }
+        public DbSet<ApplicationStatusHistory> ApplicationStatusHistories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -161,6 +164,42 @@ namespace Backend.Infrastructure.Persistence.Context
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasIndex(js => new { js.JobId, js.SkillId }).IsUnique();
+            });
+
+            modelBuilder.Entity<JobApplication>(entity =>
+            {
+                entity.HasOne(a => a.Job)
+                      .WithMany()
+                      .HasForeignKey(a => a.JobId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<ApplicationUser>()
+                      .WithMany()
+                      .HasForeignKey(a => a.CandidateUserId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(a => a.Resume)
+                      .WithMany()
+                      .HasForeignKey(a => a.ResumeId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.SetNull);
+
+                entity.HasIndex(a => new { a.JobId, a.CandidateUserId }).IsUnique();
+                entity.HasIndex(a => a.Status);
+            });
+
+            modelBuilder.Entity<ApplicationStatusHistory>(entity =>
+            {
+                entity.HasOne(h => h.Application)
+                      .WithMany(a => a.StatusHistory)
+                      .HasForeignKey(h => h.ApplicationId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(h => h.ApplicationId);
+                entity.HasIndex(h => h.ChangedAt);
             });
         }
     }
