@@ -30,6 +30,10 @@ namespace Backend.Infrastructure.Persistence.Context
         public DbSet<JobApplication> JobApplications { get; set; }
         public DbSet<ApplicationStatusHistory> ApplicationStatusHistories { get; set; }
 
+        public DbSet<SavedJob> SavedJobs { get; set; }
+        public DbSet<JobAlert> JobAlerts { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -200,6 +204,35 @@ namespace Backend.Infrastructure.Persistence.Context
 
                 entity.HasIndex(h => h.ApplicationId);
                 entity.HasIndex(h => h.ChangedAt);
+            });
+
+            modelBuilder.Entity<SavedJob>(entity =>
+            {
+                entity.HasOne(sj => sj.Job)
+                      .WithMany()
+                      .HasForeignKey(sj => sj.JobId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne<ApplicationUser>()
+                      .WithMany()
+                      .HasForeignKey(sj => sj.UserId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(sj => new { sj.UserId, sj.JobId }).IsUnique();
+            });
+
+            modelBuilder.Entity<JobAlert>(entity =>
+            {
+                entity.HasOne<ApplicationUser>()
+                      .WithMany()
+                      .HasForeignKey(a => a.UserId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(a => a.UserId);
+                entity.HasIndex(a => a.IsActive);
             });
         }
     }
