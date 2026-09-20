@@ -1,13 +1,14 @@
 ﻿using Backend.Application.Interfaces;
 using Backend.Application.Interfaces.Repositories;
-using Backend.Infrastructure.Persistence.Repositories;
+using Backend.Application.Services;
 using Backend.Infrastructure.Identity;
 using Backend.Infrastructure.Persistence.Context;
+using Backend.Infrastructure.Persistence.Repositories;
+using Backend.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Backend.Infrastructure.Services;
 
 namespace Backend.Infrastructure.DependencyInjection
 {
@@ -41,7 +42,10 @@ namespace Backend.Infrastructure.DependencyInjection
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<ICandidateProfileService, CandidateProfileService>();
+            services.AddScoped<IEducationService, EducationService>();
+            services.AddScoped<IExperienceService, ExperienceService>();
+            services.AddScoped<ISkillService, SkillService>();
             return services;
         }
-    }
+    } 
 }
