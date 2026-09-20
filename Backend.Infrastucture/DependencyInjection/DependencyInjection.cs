@@ -1,4 +1,6 @@
 ﻿using Backend.Application.Interfaces;
+using Backend.Application.Interfaces.Repositories;
+using Backend.Infrastructure.Persistence.Repositories;
 using Backend.Infrastucture.Identity;
 using Backend.Infrastucture.Persistence.Context;
 using Backend.Infrastucture.Services;
@@ -21,7 +23,8 @@ namespace Backend.Infrastucture.DependencyInjection
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"));
             });
-
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             // Identity
             services.AddIdentityCore<ApplicationUser>(options =>
             {

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Backend.Application.Interfaces.Repositories;
 
-namespace Backend.Application.Interfaces.Repositories
+public interface IUnitOfWork
 {
-    internal interface IUnitOfWork
-    {
-    }
+    Task<int> SaveChangesAsync(
+        CancellationToken cancellationToken = default);
 }
