@@ -21,6 +21,9 @@ namespace Backend.Infrastructure.Persistence.Context
         public DbSet<Skill> Skills { get; set; }
         public DbSet<CandidateSkill> CandidateSkills { get; set; }
 
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<RecruiterProfile> RecruiterProfiles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -94,6 +97,31 @@ namespace Backend.Infrastructure.Persistence.Context
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasIndex(r => r.UserId);
+            });
+
+            // 1. Add these DbSets at the class level
+
+            // 2. Add these configurations inside OnModelCreating:
+            modelBuilder.Entity<Company>(entity =>
+            {
+                entity.HasIndex(c => c.Name).IsUnique();
+            });
+
+            modelBuilder.Entity<RecruiterProfile>(entity =>
+            {
+                entity.HasOne<ApplicationUser>()
+                      .WithMany()
+                      .HasForeignKey(r => r.UserId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(r => r.Company)
+                      .WithMany(c => c.Recruiters)
+                      .HasForeignKey(r => r.CompanyId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(r => new { r.UserId, r.CompanyId }).IsUnique();
             });
         }
     }

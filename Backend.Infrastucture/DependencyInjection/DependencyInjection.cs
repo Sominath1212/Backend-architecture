@@ -48,6 +48,8 @@ namespace Backend.Infrastructure.DependencyInjection
             services.AddScoped<ISkillService, SkillService>();
             services.AddScoped<IResumeService, ResumeService>();
             services.AddScoped<IFileStorageService, LocalFileStorageService>();
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IRecruiterService, RecruiterService>();
             return services;
         }
     } 
